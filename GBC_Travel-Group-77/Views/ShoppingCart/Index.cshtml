@@ -1,0 +1,78 @@
+﻿@model ShoppingCartViewModel
+
+<h3 class="my-5">
+    Shopping Cart
+</h3>
+
+
+<div class="row gx-3">
+    <div class="col-8">
+        @foreach (var line in Model.Flights)
+        {
+            <div class="card shopping-cart-card mb-2">
+                <div class="row">
+
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-text"> @Model.shoppingCart.ShoppingCartItems.FirstOrDefault(item => item.itemId == line.id && item.type == line.category).number x @line.company</h5>
+                            <div class="d-flex justify-content-between">
+                                <h6>@line.shortDescription</h6>
+                                <h4>@line.price.ToString("€0.00") per ticket</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-8">
+        @foreach (var line in Model.Hotels)
+        {
+            <div class="card shopping-cart-card mb-2">
+                <div class="row">
+
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-text"> @Model.shoppingCart.ShoppingCartItems.FirstOrDefault(item => item.itemId == line.id && item.type == line.category).number x @line.name</h5>
+                            <div class="d-flex justify-content-between">
+                                <h6>@line.shortDescription</h6>
+                                <h4>@line.price.ToString("€0.00") per day</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-8">
+        @foreach (var line in Model.Cars)
+        {
+            <div class="card shopping-cart-card mb-2">
+                <div class="row">
+
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-text"> @Model.shoppingCart.ShoppingCartItems.FirstOrDefault(item => item.itemId == line.id && item.type == line.category).number x @line.type</h5>
+                            <div class="d-flex justify-content-between">
+                                <h6>@line.shortDescription</h6>
+                                <h4>@line.price.ToString("€0.00") per day</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-4">
+        <div class="card shopping-cart-card p-3">
+            <div class="row">
+                <h4 class="col">Total:</h4>
+                <h4 class="col text-end">@Model.ShoppingCartTotal.ToString("€0.00")</h4>
+            </div>
+            <hr />
+            <div class="text-center d-grid">
+                <a class="btn btn-secondary" asp-controller="Order" asp-action="checkout"><h4>Check out now!</h4></a>
+            </div>
+        </div>
+    </div>
+</div>

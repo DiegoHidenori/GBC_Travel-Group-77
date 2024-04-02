@@ -1,0 +1,19 @@
+﻿@model Car
+
+<h2 class="my-5">
+    <em>@Model.make</em>
+</h2>
+
+<div class="row gx-5">
+    <img alt="@Model.make" src=@Url.Content(Model.imageUrl) class="img-fluid col-5" />
+    <div class="col-7">
+        <h3>@Model.shortDescription</h3>
+        <p>@Model.longDescription</p>
+        <p>Type: @Model.type</p>
+        <p>@Model.make @Model.model @Model.yearManufactured</p>
+        <p>Color: @Model.color</p>
+        <p>Seat Capacity: @Model.seatCapacity</p>
+        <p>(LicensePlate: @Model.licensePlate)</p>
+        <h3 class="pull-right">@Model.price.ToString("$0.00")</h3>
+    </div>
+</div>

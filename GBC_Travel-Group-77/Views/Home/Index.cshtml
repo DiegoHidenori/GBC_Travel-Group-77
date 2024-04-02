@@ -1,8 +1,43 @@
-﻿@{
+﻿@model HomeViewModel
+
+
+
+@{
     ViewData["Title"] = "Home Page";
 }
+<partial name="_Carousel" />
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1>Hot Deals</h1>
+    <h5>Enjoy our selection of hot deals for flights, hotels, and cars</h5>
+
+    <div class="hot-deals">
+        <h1 style="text-align: left">Flights</h1>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            
+            @foreach (var flight in Model.flightsHotDeals)
+            {
+                <partial name="_FlightCard" model="flight" />
+            }
+        </div>
+
+        <h1 style="text-align: left">Hotels</h1>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            
+            @foreach (var hotel in Model.hotelsHotDeals)
+            {
+                <partial name="_HotelCard" model="hotel" />
+            }
+        </div>
+
+        <h1 style="text-align: left">Cars</h1>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            
+            @foreach (var car in Model.carsHotDeals)
+            {
+                <partial name="_CarCard" model="car" />
+            }
+        </div>
+    </div>
 </div>
+

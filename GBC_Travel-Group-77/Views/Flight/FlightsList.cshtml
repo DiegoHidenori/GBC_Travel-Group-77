@@ -1,0 +1,11 @@
+﻿@model IEnumerable<GBC_Travel_Group_77.Models.Flight>
+
+
+<h1>All Flights</h1>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+
+    @foreach (var flight in @Model)
+    {
+        <partial name="_FlightCard" model="flight" />
+    }
+</div>

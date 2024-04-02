@@ -1,0 +1,48 @@
+﻿@model HomeViewModel
+
+
+<div class="text-center">
+    <h1>Search results</h1>
+
+    <div class="hot-deals">
+        @if (!Model.flightsHotDeals.Any() && !Model.hotelsHotDeals.Any() && !Model.carsHotDeals.Any())
+        {
+            <p>No results found.</p>
+        }
+        else
+        {
+            @if (Model.flightsHotDeals.Any())
+            {
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <h3>Flights</h3>
+                    @foreach (var flight in Model.flightsHotDeals)
+                    {
+                        <partial name="_FlightCard" model="flight" />
+                    }
+                </div>
+            }
+
+            @if (Model.hotelsHotDeals.Any())
+            {
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <h3>Hotels</h3>
+                    @foreach (var hotel in Model.hotelsHotDeals)
+                    {
+                        <partial name="_HotelCard" model="hotel" />
+                    }
+                </div>
+            }
+
+            @if (Model.carsHotDeals.Any())
+            {
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <h3>Cars</h3>
+                    @foreach (var car in Model.carsHotDeals)
+                    {
+                        <partial name="_CarCard" model="car" />
+                    }
+                </div>
+            }
+        }
+    </div>
+</div>

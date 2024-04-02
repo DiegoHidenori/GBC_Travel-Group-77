@@ -1,0 +1,35 @@
+﻿@model Car
+
+<div class="col">
+    <div class="card pie-card">
+        <img src="@Url.Content(Model.imageUrl)" class="card-img-top" alt="@Model.make">
+        <div class="card-body pie-button">
+            <h4 class="d-grid">
+                @Model.model @Model.yearManufactured
+            </h4>
+            <form asp-controller="ShoppingCart" asp-action="AddToShoppingCart" method="get">
+                <input type="hidden" name="id" value="@Model.id" />
+                <input type="hidden" name="type" value="car" />
+                <div class="input-group">
+                    <input type="number" name="number" class="form-control" value="1" min="1" max="10" />
+                    <button type="submit" class="btn btn-secondary">
+                        + Add To Cart
+                    </button>
+                </div>
+            </form>
+            <div class="d-flex justify-content-between mt-2">
+                <h2 class="text-start">
+                    <a asp-controller="Car"
+                       asp-action="Details"
+                       asp-route-id="@Model.id"
+                       class="flight-link">
+                        @Model.make
+                    </a>
+                </h2>
+                <h5 class="text-nowrap">
+                    @Model.price.ToString("$0.00")
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>

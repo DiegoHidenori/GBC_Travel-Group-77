@@ -1,0 +1,19 @@
+﻿@model Hotel
+
+<h2 class="my-5">
+    <em>@Model.name</em>
+</h2>
+
+<div class="row gx-5">
+    <img alt="@Model.name" src=@Url.Content(Model.imageUrl) class="img-fluid col-5" />
+    <div class="col-7">
+        <h3>@Model.shortDescription</h3>
+        <p>@Model.longDescription</p>
+        <p>@Model.address, @Model.city, @Model.country</p>
+        <p>Rating: @Model.starRating</p>
+        <p>Room Type: @Model.roomTypes</p>
+        <p>Available Rooms: @Model.availableRooms</p>
+        <p>Contact: @Model.contactInfo</p>
+        <h3 class="pull-right">Price: @Model.price.ToString("$0.00")</h3>
+    </div>
+</div>
