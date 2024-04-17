@@ -1,5 +1,26 @@
-﻿@model IEnumerable<GBC_Travel_Group_77.Models.Car>
+﻿@model IEnumerable<Car>
 
+@using Microsoft.AspNetCore.Identity
+@using GBC_Travel_Group_77.Areas.ProjectManagement.Models;
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    // Session service
+    <h5>CarsList Public Session Visits: @ViewBag.publicsession</h5>
+
+    var user = await UserManager.GetUserAsync(User);
+    if (user != null)
+    {
+        var roles = await UserManager.GetRolesAsync(user);
+        @if (roles.Contains("Admin"))
+        {
+            // Session service
+            <h5>CarsList Admin Session Visits: @ViewBag.adminsession</h5>
+        }
+    }
+}
 
 <h1>All Cars</h1>
 <div class="row row-cols-1 row-cols-md-3 g-4">

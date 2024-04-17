@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using GBC_Travel_Group_77.Areas.ProjectManagement.Models;
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    if (user == null)
+    {
+        <h1>User is null...</h1>
+    }
+    else
+    {
+        var roles = await UserManager.GetRolesAsync(user);
+
+        if (roles.Contains("Admin"))
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" data-bs-toggle="dropdown" id="nav-dropdown" aria-expanded="false">
+                    Edit
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="nav-dropdown">
+                    <li>
+                        <a asp-controller="Flight" asp-action="Index" class="dropdown-item">Edit Flight</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Hotel" asp-action="Index" class="dropdown-item">Edit Hotel</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Car" asp-action="Index" class="dropdown-item">Edit Car</a>
+                    </li>
+                </ul>
+            </li>
+        }
+        else
+        {
+            <h1>Unauthorized!</h1>
+        }
+    }
+}

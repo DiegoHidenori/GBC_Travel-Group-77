@@ -1,0 +1,51 @@
+﻿@model Flight
+
+@using Microsoft.AspNetCore.Identity
+@using GBC_Travel_Group_77.Areas.ProjectManagement.Models;
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    if (user == null)
+    {
+        <h1>You need to sign in...</h1>
+    }
+    else
+    {
+        var roles = await UserManager.GetRolesAsync(user);
+        if (!roles.Contains("Admin"))
+        {
+            <h1>You do not have permission to delete a flight...</h1>
+        }
+        else
+        {
+            // Session service
+            <h5>Delete Admin Session Visits: @ViewBag.publicsession</h5>
+
+            <h2 class="my-5">
+                <em>@Model.company</em>
+            </h2>
+
+            <div class="row gx-5">
+                <img alt="@Model.company" src="~/img/flights/flightImage.jpg" class="img-fluid col-5" />
+                <div class="col-7">
+                    <h3>@Model.shortDescription</h3>
+                    <p>@Model.longDescription</p>
+                    <p>Departure: @Model.departureAirport, Gate @Model.departureGate, @Model.departureDate</p>
+                    <p>Arrival: @Model.arrivalAirport, Gate @Model.arrivalGate, @Model.arrivalDate</p>
+                    <p>Flight Duration: @Model.flightDuration</p>
+                    <p>Available Seats: @Model.availableSeats</p>
+                    <p>Flight Status: @Model.flightStatus</p>
+                    <h3 class="pull-right">@Model.price.ToString("$0.00")</h3>
+                </div>
+                <p>Are you sure you want ot delete this flight?</p>
+                <form asp-action="DeleteConfirmed" asp-route-id="@Model.id" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <a asp-action="FlightsList" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        }
+    }
+}

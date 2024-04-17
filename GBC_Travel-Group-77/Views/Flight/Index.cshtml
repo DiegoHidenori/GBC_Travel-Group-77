@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Flight>
+
+@using Microsoft.AspNetCore.Identity
+@using GBC_Travel_Group_77.Areas.ProjectManagement.Models;
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    if (user == null)
+    {
+        <h1>You need to sign in...</h1>
+    }
+    else
+    {
+        var roles = await UserManager.GetRolesAsync(user);
+        if (!roles.Contains("Admin"))
+        {
+            <h1>You do not have permission for this page...</h1>
+        }
+        else
+        {
+            // Session service
+            <h5>Index Admin Session Visits: @ViewBag.adminsession</h5>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Company</th>
+                        <th>Departure Airport</th>
+                        <th>Departure Date</th>
+                        <th>Arrival Airport</th>
+                        <th>Arrival Date</th>
+                        <th>Flight Duration</th>
+                        <td>Flight Status</td>
+                        <td>Price</td>
+                        <td>Short Description</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var flight in @Model)
+                    {
+                        <tr>
+                            <td>@flight.id</td>
+                            <td>@flight.company</td>
+                            <td>@flight.departureAirport</td>
+                            <td>@flight.departureDate</td>
+                            <td>@flight.arrivalAirport</td>
+                            <td>@flight.arrivalDate</td>
+                            <td>@flight.flightDuration</td>
+                            <td>@flight.flightStatus</td>
+                            <td>@flight.price</td>
+                            <td>@flight.shortDescription</td>
+                            <td><a asp-controller="Flight" asp-action="Edit" asp-route-id="@flight.id" class="btn btn-info">Edit</a></td>
+                            <td><a asp-controller="Flight" asp-action="Delete" asp-route-id="@flight.id" class="btn btn-info">Delete</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
+}

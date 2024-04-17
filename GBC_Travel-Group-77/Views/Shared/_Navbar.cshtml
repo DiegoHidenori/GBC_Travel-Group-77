@@ -1,0 +1,141 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using GBC_Travel_Group_77.Areas.ProjectManagement.Models;
+
+
+@* Identity? *@
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<nav style="background-color: #613318" class="navbar navbar-expand-lg navbar-dark fixed-top " aria-label="Travel Platform">
+    <div class="container-xl">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+            <img src="~/img/main/COMP2139Image.svg" width="151" height="47" class="d-inline-block align-top mb-2 mt-1" alt="TravelLogo">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                </li>
+
+                <partial name="_CategoryMenu.cshtml" />
+
+                <li>
+                    <a asp-controller="Contact" asp-action="Index" class="nav-link">Contact</a>
+                </li>
+
+
+                @* Condition to show different anchor tags depending on if the user is signed in *@
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    try
+                    {
+                        @* <li>
+                        <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity?.Name</a>
+                        </li> *@
+                        var user = await UserManager.GetUserAsync(User);
+                        if (user == null)
+                        {
+                            @* <h1>No user found</h1> *@
+                        }
+                        else
+                        {
+                            var roles = await UserManager.GetRolesAsync(user);
+
+                            if (roles.Contains("Admin"))
+                            {
+                                <partial name="Menus/_AddMenu" />
+                                <partial name="Menus/_UpdateMenu" />
+                                <partial name="Menus/_DeleteMenu" />
+                            }
+
+                            <li>
+                                <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage your account">
+                                    Account
+                                </a>
+                            </li>
+                            <li>
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn" style="cursor: pointer; color: orange">Logout</button>
+                                </form>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" data-bs-toggle="dropdown" id="nav-dropdown" aria-expanded="false">
+                                    Roles
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="nav-dropdown">
+                                    <li>
+                                        <a asp-area="/" asp-controller="/UserRoles" class="dropdown-item nav-link">User Roles</a>
+                                    </li>
+                                    @if (roles.Contains("Admin"))
+                                    {
+                                        <li>
+                                            <a asp-area="/" asp-controller="/RoleManager" class="dropdown-item nav-link">Role Manager</a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        <h5>Error: @ex.Message</h5>
+                    }
+                }
+                else
+                {
+                    <li>
+                        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                    </li>
+                }
+                
+                <li>
+                    <a asp-controller="ShoppingCart" asp-action="Index" class="nav-link">Cart</a>
+                </li>
+            </ul>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                try
+                {
+                    var user = await UserManager.GetUserAsync(User);
+                    if (user == null)
+                    {
+                        @* Null user *@
+                    }
+                    else
+                    {
+                        var profilePic = user.ProfilePicture;
+                        if (profilePic != null)
+                        {
+                            <img style="width: 30px; height:30px; object-fit:cover; border-radius:20px; margin-right: 2px;"
+                                 src="data:image/*;base64,@(Convert.ToBase64String(profilePic))" />
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    <p>Error: @ex.Message</p>
+                }
+            }
+            <!-- Search Form -->
+            <form class="d-flex" asp-controller="SearchItem" asp-action="Index" method="get">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="keyWord">
+                <button class="btn btn-outline-light" type="submit">Search</button>
+            </form>
+
+
+            <!-- Icon for the shopping cart -->
+
+
+            <vc:shopping-cart-summary></vc:shopping-cart-summary>
+        </div>
+    </div>
+</nav>

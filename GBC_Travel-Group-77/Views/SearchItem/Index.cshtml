@@ -2,6 +2,10 @@
 
 
 <div class="text-center">
+    @{
+        // Session service
+        <h5>Details Session Visits: @ViewBag.publicsession</h5>
+    }
     <h1>Search results</h1>
 
     <div class="hot-deals">
@@ -13,8 +17,8 @@
         {
             @if (Model.flightsHotDeals.Any())
             {
+                <h1>Flights</h1>
                 <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <h3>Flights</h3>
                     @foreach (var flight in Model.flightsHotDeals)
                     {
                         <partial name="_FlightCard" model="flight" />
@@ -24,8 +28,8 @@
 
             @if (Model.hotelsHotDeals.Any())
             {
+                <h1>Hotels</h1>
                 <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <h3>Hotels</h3>
                     @foreach (var hotel in Model.hotelsHotDeals)
                     {
                         <partial name="_HotelCard" model="hotel" />
@@ -35,8 +39,8 @@
 
             @if (Model.carsHotDeals.Any())
             {
+                <h1>Cars</h1>
                 <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <h3>Cars</h3>
                     @foreach (var car in Model.carsHotDeals)
                     {
                         <partial name="_CarCard" model="car" />

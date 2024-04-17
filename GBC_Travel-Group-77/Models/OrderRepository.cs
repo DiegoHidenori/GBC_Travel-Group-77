@@ -15,16 +15,23 @@ namespace GBC_Travel_Group_77.Models
 
         public void CreateOrder(Order order)
         {
-            order.OrderPlaced = DateTime.Now;
+            try
+            {
+                order.OrderPlaced = DateTime.Now;
 
-            List<ShoppingCartItem>? shoppingCartItems = _shoppingCart.ShoppingCartItems;
+                List<ShoppingCartItem>? shoppingCartItems = _shoppingCart.ShoppingCartItems;
 
 
-            //adding the order with its details
+                //adding the order with its details
 
-            _appDbContext.Orders.Add(order);
+                _appDbContext.Orders.Add(order);
 
-            _appDbContext.SaveChanges();
+                _appDbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error creating an order: ", ex);
+            }
         }
     }
 }

@@ -1,0 +1,133 @@
+﻿@model Flight
+
+@using Microsoft.AspNetCore.Identity
+@using GBC_Travel_Group_77.Areas.ProjectManagement.Models;
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    if (user == null)
+    {
+        <h1>You need to sign in...</h1>
+    }
+    else
+    {
+        var roles = await UserManager.GetRolesAsync(user);
+        if (!roles.Contains("Admin"))
+        {
+            <h1>You do not have permission to add a flight...</h1>
+        }
+        else
+        {
+            // Session service
+            <h5>Add Admin Session Visits: @ViewBag.adminsession</h5>
+
+            <h2>Add Flight</h2>
+
+            <form asp-action="Add" method="post">
+                <div class="form-group">
+                    <label asp-for="company"></label>
+                    <input asp-for="company" class="form-control" />
+                    <span asp-validation-for="company" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="category"></label>
+                    <input asp-for="category" class="form-control" />
+                    <span asp-validation-for="category" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="departureAirport"></label>
+                    <input asp-for="departureAirport" class="form-control" />
+                    <span asp-validation-for="departureAirport" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="departureGate"></label>
+                    <input asp-for="departureGate" class="form-control" />
+                    <span asp-validation-for="departureGate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="departureDate"></label>
+                    <input asp-for="departureDate" class="form-control" />
+                    <span asp-validation-for="departureDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="arrivalAirport"></label>
+                    <input asp-for="arrivalAirport" class="form-control" />
+                    <span asp-validation-for="arrivalAirport" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="arrivalGate"></label>
+                    <textarea asp-for="arrivalGate" class="form-control"></textarea>
+                    <span asp-validation-for="arrivalGate" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <label asp-for="arrivalDate"></label>
+                    <input asp-for="arrivalDate" class="form-control" />
+                    <span asp-validation-for="arrivalDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="flightDuration"></label>
+                    <input asp-for="flightDuration" class="form-control" />
+                    <span asp-validation-for="flightDuration" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="totalSeats"></label>
+                    <input asp-for="totalSeats" class="form-control" />
+                    <span asp-validation-for="totalSeats" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="availableSeats"></label>
+                    <input asp-for="availableSeats" class="form-control" />
+                    <span asp-validation-for="availableSeats" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="flightStatus"></label>
+                    <input asp-for="flightStatus" class="form-control" />
+                    <span asp-validation-for="flightStatus" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="price"></label>
+                    <input asp-for="price" class="form-control" />
+                    <span asp-validation-for="price" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="isHotDeal"></label>
+                    <input asp-for="isHotDeal" type="checkbox" />
+                    <span asp-validation-for="isHotDeal" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="shortDescription"></label>
+                    <textarea asp-for="shortDescription" class="form-control"></textarea>
+                    <span asp-validation-for="shortDescription" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="longDescription"></label>
+                    <textarea asp-for="longDescription" class="form-control"></textarea>
+                    <span asp-validation-for="longDescription" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+        }
+    }
+    
+}

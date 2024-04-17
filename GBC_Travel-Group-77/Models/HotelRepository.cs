@@ -15,8 +15,14 @@ namespace GBC_Travel_Group_77.Models
         {
             get
             {
-
-                return _appDbContext.Hotels;
+                try
+                {
+                    return _appDbContext.Hotels;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error retrieving all the hotels: ", ex);
+                }
             }
         }
 
@@ -24,13 +30,68 @@ namespace GBC_Travel_Group_77.Models
         {
             get
             {
-                return _appDbContext.Hotels.Where(p => p.isHotDeal);
+                try
+                {
+                    return _appDbContext.Hotels.Where(p => p.isHotDeal);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error retrieving the hot deals: ", ex);
+                }
             }
+        }
+
+        public void AddHotel(Hotel hotel)
+        {
+            try
+            {
+                _appDbContext.Hotels.Add(hotel);
+                _appDbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error adding a hotel: ", ex);
+            }
+        }
+
+        public void UpdateHotel(Hotel hotel)
+        {
+            try
+            {
+                _appDbContext.Hotels.Update(hotel);
+                _appDbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error updating a hotel: ", ex);
+            }
+        }
+
+        public void DeleteHotel(Hotel hotel)
+        {
+            try
+            {
+                _appDbContext.Hotels.Remove(hotel);
+                _appDbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error deleting hotel: ", ex);
+            }
+            
         }
 
         public Hotel? GetHotelById(int id)
         {
-            return _appDbContext.Hotels.FirstOrDefault(p => p.id == id);
+            try
+            {
+                return _appDbContext.Hotels.FirstOrDefault(p => p.id == id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error getting a hotel with the id: ", ex);
+            }
+            
         }
     }
 }

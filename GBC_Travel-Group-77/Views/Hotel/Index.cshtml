@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Hotel>
+
+@using Microsoft.AspNetCore.Identity
+@using GBC_Travel_Group_77.Areas.ProjectManagement.Models;
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    if (user == null)
+    {
+        <h1>You need to sign in...</h1>
+    }
+    else
+    {
+        var roles = await UserManager.GetRolesAsync(user);
+        if (!roles.Contains("Admin"))
+        {
+            <h1>You do not have permission for this page...</h1>
+        }
+        else
+        {
+            // Session service
+            <h5>Index Admin Session Visits: @ViewBag.adminsession</h5>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>Country</th>
+                        <th>Star Rating</th>
+                        <th>Price</th>
+                        <td>Short Description</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var hotel in @Model)
+                    {
+                        <tr>
+                            <td>@hotel.id</td>
+                            <td>@hotel.name</td>
+                            <td>@hotel.address</td>
+                            <td>@hotel.city</td>
+                            <td>@hotel.country</td>
+                            <td>@hotel.starRating</td>
+                            <td>@hotel.price</td>
+                            <td>@hotel.shortDescription</td>
+                            <td><a asp-controller="Hotel" asp-action="Edit" asp-route-id="@hotel.id" class="btn btn-info">Edit</a></td>
+                            <td><a asp-controller="Hotel" asp-action="Delete" asp-route-id="@hotel.id" class="btn btn-info">Delete</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
+}

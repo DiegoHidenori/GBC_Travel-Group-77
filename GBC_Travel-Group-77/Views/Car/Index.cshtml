@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Car>
+
+@using Microsoft.AspNetCore.Identity
+@using GBC_Travel_Group_77.Areas.ProjectManagement.Models;
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    if (user == null)
+    {
+        <h1>You need to sign in...</h1>
+    }
+    else
+    {
+        var roles = await UserManager.GetRolesAsync(user);
+        if (!roles.Contains("Admin"))
+        {
+            <h1>You do not have permission for this page...</h1>
+        }
+        else
+        {
+            // Session service
+            <h5>Index Admin Session Visits: @ViewBag.adminsession</h5>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Year</th>
+                        <th>Make</th>
+                        <th>Model</th>
+                        <th>Color</th>
+                        <th>Type</th>
+                        <th>License Plate</th>
+                        <td>Actions</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var car in @Model)
+                    {
+                        <tr>
+                            <td>@car.id</td>
+                            <td>@car.yearManufactured</td>
+                            <td>@car.make</td>
+                            <td>@car.model</td>
+                            <td>@car.color</td>
+                            <td>@car.type</td>
+                            <td>@car.licensePlate</td>
+                            <td><a asp-controller="Car" asp-action="Edit" asp-route-id="@car.id" class="btn btn-info">Edit</a></td>
+                            <td><a asp-controller="Car" asp-action="Delete" asp-route-id="@car.id" class="btn btn-info">Delete</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
+}
+
+
+@* <h1>All Cars</h1>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+
+    @foreach (var car in @Model)
+    {
+        <partial name="_CarCard" model="car" />
+    }
+</div> *@
+

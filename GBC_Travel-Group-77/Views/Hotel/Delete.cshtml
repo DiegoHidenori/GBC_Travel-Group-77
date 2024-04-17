@@ -1,0 +1,51 @@
+﻿@model Hotel
+
+@using Microsoft.AspNetCore.Identity
+@using GBC_Travel_Group_77.Areas.ProjectManagement.Models;
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    if (user == null)
+    {
+        <h1>You need to sign in...</h1>
+    }
+    else
+    {
+        var roles = await UserManager.GetRolesAsync(user);
+        if (!roles.Contains("Admin"))
+        {
+            <h1>You do not have permission to delete a hotel...</h1>
+        }
+        else
+        {
+            // Session service
+            <h5>Delete Public Session Visits: @ViewBag.adminsession</h5>
+
+            <h2 class="my-5">
+                <em>@Model.name</em>
+            </h2>
+
+            <div class="row gx-5">
+                <img alt="@Model.name" src=@Url.Content(Model.imageUrl) class="img-fluid col-5" />
+                <div class="col-7">
+                    <h3>@Model.shortDescription</h3>
+                    <p>@Model.longDescription</p>
+                    <p>@Model.address, @Model.city, @Model.country</p>
+                    <p>Rating: @Model.starRating</p>
+                    <p>Room Type: @Model.roomTypes</p>
+                    <p>Available Rooms: @Model.availableRooms</p>
+                    <p>Contact: @Model.contactInfo</p>
+                    <h3 class="pull-right">Price: @Model.price.ToString("$0.00")</h3>
+                </div>
+                <p>Are you sure you want ot delete this hotel?</p>
+                <form asp-action="DeleteConfirmed" asp-route-id="@Model.id" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <a asp-action="FlightsList" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        }
+    }
+}

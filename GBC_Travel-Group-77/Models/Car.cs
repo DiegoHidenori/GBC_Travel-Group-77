@@ -1,4 +1,6 @@
-﻿namespace GBC_Travel_Group_77.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace GBC_Travel_Group_77.Models
 {
     public class Car
     {

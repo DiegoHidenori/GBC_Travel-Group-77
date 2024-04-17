@@ -1,0 +1,132 @@
+﻿@model Hotel
+
+@using Microsoft.AspNetCore.Identity
+@using GBC_Travel_Group_77.Areas.ProjectManagement.Models;
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    if (user == null)
+    {
+        <h1>You need to sign in...</h1>
+    }
+    else
+    {
+        var roles = await UserManager.GetRolesAsync(user);
+        @if (!roles.Contains("Admin"))
+        {
+            <h1>You do not have permission to add a hotel...</h1>
+        }
+        else
+        {
+            // Session service
+            <h5>Add Admin Session Visits: @ViewBag.adminsession</h5>
+
+            <h2>Add Hotel</h2>
+
+            <form asp-action="Add" method="post">
+                <div class="form-group">
+                    <label asp-for="name"></label>
+                    <input asp-for="name" class="form-control" />
+                    <span asp-validation-for="name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="category"></label>
+                    <input asp-for="category" class="form-control" />
+                    <span asp-validation-for="category" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="address"></label>
+                    <input asp-for="address" class="form-control" />
+                    <span asp-validation-for="address" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="city"></label>
+                    <input asp-for="city" class="form-control" />
+                    <span asp-validation-for="city" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="country"></label>
+                    <input asp-for="country" class="form-control" />
+                    <span asp-validation-for="country" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="starRating"></label>
+                    <input asp-for="starRating" class="form-control" />
+                    <span asp-validation-for="starRating" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="description"></label>
+                    <textarea asp-for="description" class="form-control"></textarea>
+                    <span asp-validation-for="description" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <label asp-for="totalRooms"></label>
+                    <input asp-for="totalRooms" class="form-control" />
+                    <span asp-validation-for="totalRooms" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="availableRooms"></label>
+                    <input asp-for="availableRooms" class="form-control" />
+                    <span asp-validation-for="availableRooms" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="roomTypes"></label>
+                    <input asp-for="roomTypes" class="form-control" />
+                    <span asp-validation-for="roomTypes" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="contactInfo"></label>
+                    <input asp-for="contactInfo" class="form-control" />
+                    <span asp-validation-for="contactInfo" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="price"></label>
+                    <input asp-for="price" class="form-control" />
+                    <span asp-validation-for="price" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="isHotDeal"></label>
+                    <input asp-for="isHotDeal" type="checkbox" />
+                    <span asp-validation-for="isHotDeal" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="shortDescription"></label>
+                    <textarea asp-for="shortDescription" class="form-control"></textarea>
+                    <span asp-validation-for="shortDescription" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="longDescription"></label>
+                    <textarea asp-for="longDescription" class="form-control"></textarea>
+                    <span asp-validation-for="longDescription" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="imageUrl"></label>
+                    <input asp-for="imageUrl" class="form-control" />
+                    <span asp-validation-for="imageUrl" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+        }
+    }
+}
